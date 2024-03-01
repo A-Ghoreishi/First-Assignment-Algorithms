@@ -1,7 +1,7 @@
-import java.util.ArrayList;
+import java.util.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Exercises2 {
 
@@ -14,7 +14,42 @@ public class Exercises2 {
     */
 
     public int[] twoSum(int[] nums, int target) {
-        // TODO
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
+            }
+            map.put(nums[i], i);
+        }
+
+        throw new IllegalArgumentException("No two sum solution");
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input: array of integers
+        System.out.print("Enter the array of integers (comma-separated): ");
+        String[] numsInput = scanner.nextLine().split(",");
+        int[] nums = new int[numsInput.length];
+        for (int i = 0; i < numsInput.length; i++) {
+            nums[i] = Integer.parseInt(numsInput[i].trim());
+        }
+
+        // Input: target sum
+        System.out.print("Enter the target sum: ");
+        int target = scanner.nextInt();
+
+        // Find the indices
+        int[] result = twoSum(nums, target);
+
+        // Output the result
+        System.out.println("Indices of the two numbers that add up to the target: [" + result[0] + ", " + result[1] + "]");
+
+        scanner.close();
+    }
         return null;
     }
 
@@ -49,7 +84,48 @@ public class Exercises2 {
     */
 
     public int romanToInt(String s) {
-        // TODO
+        static {
+            romanMap = new HashMap<>();
+            romanMap.put('I', 1);
+            romanMap.put('V', 5);
+            romanMap.put('X', 10);
+            romanMap.put('L', 50);
+            romanMap.put('C', 100);
+            romanMap.put('D', 500);
+            romanMap.put('M', 1000);
+        }
+
+        public static int romanToInteger(String roman) {
+            int result = 0;
+            int prevValue = 0;
+
+            for (int i = roman.length() - 1; i >= 0; i--) {
+                char currentChar = roman.charAt(i);
+                int currentValue = romanMap.get(currentChar);
+
+                if (currentValue < prevValue) {
+                    result -= currentValue;
+                } else {
+                    result += currentValue;
+                }
+
+                prevValue = currentValue;
+            }
+
+            return result;
+        }
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("Enter a Roman numeral: ");
+            String romanNumeral = scanner.nextLine().toUpperCase(); // Convert to uppercase for case-insensitivity
+
+            int result = romanToInteger(romanNumeral);
+            System.out.println("Roman numeral " + romanNumeral + " is equivalent to " + result);
+
+            scanner.close();
+        }
         return 0;
     }
 
@@ -59,7 +135,43 @@ public class Exercises2 {
     */
 
     public List<List<Integer>> permute(int[] nums) {
-        // TODO
+        public static void generatePermutations(int[] arr, int start, int end) {
+            if (start == end) {
+                System.out.println(Arrays.toString(arr));
+                return;
+            }
+
+            for (int i = start; i <= end; ++i) {
+                swap(arr, start, i);
+                generatePermutations(arr, start + 1, end);
+                swap(arr, start, i);  // Backtrack
+            }
+        }
+
+        public static void swap(int[] arr, int i, int j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+
+            // Input array size
+            System.out.println("Enter the size of the array: ");
+            int n = scanner.nextInt();
+
+            // Input array elements
+            int[] array = new int[n];
+            System.out.println("Enter the elements of the array:");
+            for (int i = 0; i < n; i++) {
+                array[i] = scanner.nextInt();
+            }
+
+            System.out.println("Permutations:");
+            generatePermutations(array, 0, n - 1);
+        }
+    }
         return null;
     }
 
